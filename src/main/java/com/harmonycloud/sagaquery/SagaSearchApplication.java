@@ -1,27 +1,26 @@
 package com.harmonycloud.sagaquery;
 
-import com.harmonycloud.config.BffConfiguration;
-import com.harmonycloud.config.OrderConfiguration;
-import com.harmonycloud.util.JwtUtil;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication(exclude = {
         SecurityAutoConfiguration.class,
-        OrderConfiguration.class,
-        BffConfiguration.class,
-        JwtUtil.class
 })
 
 @EnableJpaRepositories
 @EnableSwagger2
 @EntityScan("com.harmonycloud.sagaquery.entity")
+@ComponentScan(excludeFilters = @ComponentScan.Filter(type = FilterType.ANNOTATION, classes = {Configuration.class}))
 public class SagaSearchApplication extends SpringBootServletInitializer {
 
     @Override
