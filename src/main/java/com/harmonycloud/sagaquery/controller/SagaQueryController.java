@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,16 +36,31 @@ public class SagaQueryController {
         Example<TxeventEntity> example = Example.of(entity);
         List<TxeventEntity> results = eventRepository.findAll(example);
         List<TxeventBo> txeventBoList = new ArrayList<>();
-        results.stream().forEach(item -> {
-            byte[] payload = item.getPayloads();
-            KryoMessageFormat format = new KryoMessageFormat();
-            Object[] argss = format.deserialize(payload);
-            TxeventBo txeventBo = new TxeventBo();
-            BeanUtils.copyProperties(item, txeventBo, "payloads");
-            txeventBo.setPayloads(JSON.toJSONString(argss));
 
+        results.stream().forEach(item -> {
+            TxeventBo txeventBo = new TxeventBo();
+            Object[] argss = {};
+            KryoMessageFormat format = new KryoMessageFormat();
+            try {
+                byte[] payload = item.getPayloads();
+                if(payload != null && payload.length > 0) {
+                    argss = format.deserialize(payload);
+                }
+                BeanUtils.copyProperties(item, txeventBo, "payloads");
+                txeventBo.setPayloads(JSON.toJSONString(argss));
+
+            } catch (Exception e) {
+                if (e instanceof IndexOutOfBoundsException) {
+                    BeanUtils.copyProperties(item, txeventBo, "payloads");
+                    txeventBo.setPayloads(new String(item.getPayloads()));
+                } else {
+                    throw e;
+                }
+            }
             txeventBoList.add(txeventBo);
         });
+
+
         return txeventBoList;
     }
 
