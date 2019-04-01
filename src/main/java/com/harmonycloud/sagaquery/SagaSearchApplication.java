@@ -1,5 +1,8 @@
 package com.harmonycloud.sagaquery;
 
+import com.harmonycloud.config.BffConfiguration;
+import com.harmonycloud.config.OrderConfiguration;
+import com.harmonycloud.util.JwtUtil;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -11,6 +14,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication(exclude = {
         SecurityAutoConfiguration.class,
+        OrderConfiguration.class,
+        BffConfiguration.class,
+        JwtUtil.class
 })
 
 @EnableJpaRepositories
