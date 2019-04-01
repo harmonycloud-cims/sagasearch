@@ -7,12 +7,14 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication(exclude = {
         SecurityAutoConfiguration.class,
 })
 
 @EnableJpaRepositories
+@EnableSwagger2
 @EntityScan("com.harmonycloud.sagaquery.entity")
 public class SagaSearchApplication extends SpringBootServletInitializer {
 

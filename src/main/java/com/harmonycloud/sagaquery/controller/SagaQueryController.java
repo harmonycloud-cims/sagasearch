@@ -4,6 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.harmonycloud.sagaquery.bo.TxeventBo;
 import com.harmonycloud.sagaquery.entity.TxeventEntity;
 import com.harmonycloud.sagaquery.repository.TxEventRepository;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.apache.servicecomb.saga.omega.format.KryoMessageFormat;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +19,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
+@Api(value = "SagaSearch")
 public class SagaQueryController {
 
     @Autowired
     TxEventRepository eventRepository;
 
-    @GetMapping("/test")
+    @GetMapping("/search")
+    @ApiOperation(value = "search saga db", response = TxeventBo.class)
+    @ApiImplicitParam(name = "gloablid", value = "gloablid", paramType = "query", dataType = "String")
     public List<TxeventBo> getPayload(@RequestParam("gloablid") String globalid) {
 
         TxeventEntity entity = new TxeventEntity();
