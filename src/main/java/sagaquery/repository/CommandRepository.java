@@ -1,10 +1,10 @@
 package sagaquery.repository;
 
-import sagaquery.entity.TxeventEntity;
+import sagaquery.entity.Command;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TxEventRepository extends JpaRepository<TxeventEntity,Long> {
+public interface CommandRepository extends JpaRepository<Command,Long> {
 
 }

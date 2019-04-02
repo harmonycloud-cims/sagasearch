@@ -1,9 +1,9 @@
 package sagaquery.controller;
 
 import com.alibaba.fastjson.JSON;
-import sagaquery.bo.TxeventBo;
-import sagaquery.entity.TxeventEntity;
-import sagaquery.repository.TxEventRepository;
+import sagaquery.bo.CommandBo;
+import sagaquery.entity.Command;
+import sagaquery.repository.CommandRepository;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -23,44 +23,44 @@ import java.util.List;
 public class SagaQueryController {
 
     @Autowired
-    TxEventRepository eventRepository;
+    CommandRepository commandRepository;
 
     @GetMapping("/search")
-    @ApiOperation(value = "search saga db", response = TxeventBo.class)
+    @ApiOperation(value = "search saga db", response = CommandBo.class)
     @ApiImplicitParam(name = "gloablid", value = "gloablid", paramType = "query", dataType = "String")
-    public List<TxeventBo> getPayload(@RequestParam("gloablid") String globalid) {
+    public List<CommandBo> getPayload(@RequestParam("gloablid") String globalid) {
 
-        TxeventEntity entity = new TxeventEntity();
-        entity.setGlobaltxid(globalid);
-        Example<TxeventEntity> example = Example.of(entity);
-        List<TxeventEntity> results = eventRepository.findAll(example);
-        List<TxeventBo> txeventBoList = new ArrayList<>();
+        Command command = new Command();
+        command.setGlobaltxid(globalid);
+        Example<Command> example = Example.of(command);
+        List<Command> results = commandRepository.findAll(example);
+        List<CommandBo> commandBoList = new ArrayList<>();
 
         results.stream().forEach(item -> {
-            TxeventBo txeventBo = new TxeventBo();
+            CommandBo commandBo = new CommandBo();
             Object[] argss = {};
             KryoMessageFormat format = new KryoMessageFormat();
-            try {
-                byte[] payload = item.getPayloads();
-                if(payload != null && payload.length > 0) {
-                    argss = format.deserialize(payload);
-                }
-                BeanUtils.copyProperties(item, txeventBo, "payloads");
-                txeventBo.setPayloads(JSON.toJSONString(argss));
+            if (item.getStatus().equals("PENDING")) {
+                try {
+                    byte[] payload = item.getPayloads();
+                    if (payload != null && payload.length > 0) {
+                        argss = format.deserialize(payload);
+                    }
+                    BeanUtils.copyProperties(item, commandBo, "payloads");
+                    commandBo.setPayloads(JSON.toJSONString(argss));
 
-            } catch (Exception e) {
-                if (e instanceof IndexOutOfBoundsException) {
-                    BeanUtils.copyProperties(item, txeventBo, "payloads");
-                    txeventBo.setPayloads(new String(item.getPayloads()));
-                } else {
-                    throw e;
+                } catch (Exception e) {
+                    if (e instanceof IndexOutOfBoundsException) {
+                        BeanUtils.copyProperties(item, commandBo, "payloads");
+                        commandBo.setPayloads(new String(item.getPayloads()));
+                    } else {
+                        throw e;
+                    }
                 }
+                commandBoList.add(commandBo);
             }
-            txeventBoList.add(txeventBo);
         });
-
-
-        return txeventBoList;
+        return commandBoList;
     }
 
 }

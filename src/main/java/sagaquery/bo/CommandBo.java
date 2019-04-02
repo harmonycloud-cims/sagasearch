@@ -1,38 +1,36 @@
 package sagaquery.bo;
 
-import java.sql.Timestamp;
-
-public class TxeventBo {
+public class CommandBo {
     private Long surrogateid;
+    private Long eventid;
     private String servicename;
     private String instanceid;
-    private Timestamp creationtime;
     private String globaltxid;
     private String localtxid;
     private String parenttxid;
-    private String type;
     private String compensationmethod;
-    private Timestamp expirytime;
-
     private String payloads;
+    private String status;
+    private String lastmodified;
+    private Long version;
 
-    public TxeventBo() {
+    public CommandBo() {
     }
 
-    public TxeventBo(Long surrogateid, String servicename, String instanceid, Timestamp creationtime, String globaltxid,
-                     String localtxid, String parenttxid, String type, String compensationmethod, Timestamp expirytime,
-                     String payloads) {
+    public CommandBo(Long surrogateid, Long eventid, String servicename, String instanceid, String globaltxid, String localtxid,
+                     String parenttxid, String compensationmethod, String payloads, String status, String lastmodified, Long version) {
         this.surrogateid = surrogateid;
+        this.eventid = eventid;
         this.servicename = servicename;
         this.instanceid = instanceid;
-        this.creationtime = creationtime;
         this.globaltxid = globaltxid;
         this.localtxid = localtxid;
         this.parenttxid = parenttxid;
-        this.type = type;
         this.compensationmethod = compensationmethod;
-        this.expirytime = expirytime;
         this.payloads = payloads;
+        this.status = status;
+        this.lastmodified = lastmodified;
+        this.version = version;
     }
 
     public Long getSurrogateid() {
@@ -41,6 +39,14 @@ public class TxeventBo {
 
     public void setSurrogateid(Long surrogateid) {
         this.surrogateid = surrogateid;
+    }
+
+    public Long getEventid() {
+        return eventid;
+    }
+
+    public void setEventid(Long eventid) {
+        this.eventid = eventid;
     }
 
     public String getServicename() {
@@ -57,14 +63,6 @@ public class TxeventBo {
 
     public void setInstanceid(String instanceid) {
         this.instanceid = instanceid;
-    }
-
-    public Timestamp getCreationtime() {
-        return creationtime;
-    }
-
-    public void setCreationtime(Timestamp creationtime) {
-        this.creationtime = creationtime;
     }
 
     public String getGlobaltxid() {
@@ -91,14 +89,6 @@ public class TxeventBo {
         this.parenttxid = parenttxid;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
     public String getCompensationmethod() {
         return compensationmethod;
     }
@@ -107,19 +97,35 @@ public class TxeventBo {
         this.compensationmethod = compensationmethod;
     }
 
-    public Timestamp getExpirytime() {
-        return expirytime;
-    }
-
-    public void setExpirytime(Timestamp expirytime) {
-        this.expirytime = expirytime;
-    }
-
     public String getPayloads() {
         return payloads;
     }
 
     public void setPayloads(String payloads) {
         this.payloads = payloads;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getLastmodified() {
+        return lastmodified;
+    }
+
+    public void setLastmodified(String lastmodified) {
+        this.lastmodified = lastmodified;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
