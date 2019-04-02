@@ -1,4 +1,4 @@
-package com.harmonycloud.sagaquery.entity;
+package sagaquery.entity;
 
 import javax.persistence.*;
 import java.sql.Timestamp;

@@ -1,6 +1,6 @@
-package com.harmonycloud.sagaquery.repository;
+package sagaquery.repository;
 
-import com.harmonycloud.sagaquery.entity.TxeventEntity;
+import sagaquery.entity.TxeventEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
